@@ -1,0 +1,1804 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Quotes</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="https://www.amgtessa.co.uk/Bootstrap/bootstrap-5.1.3-dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://www.amgtessa.co.uk/Bootstrap/bootstrap-5.1.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://www.amgtessa.co.uk/assets/css/styles.css">
+    <link rel="stylesheet" href="https://www.amgtessa.co.uk/assets/css/tablestack.css">
+
+    <!--jQuery DatePicker-->
+    <link rel="stylesheet" href="https://www.amgtessa.co.uk/assets/jquery-ui-1.14.0/jquery-ui.min.css">
+    <script src="https://www.amgtessa.co.uk/assets/js/jquery-3.7.1/jquery.min.js"></script>
+    <script src="https://www.amgtessa.co.uk/assets/jquery-ui-1.14.0/jquery-ui.min.js"></script>
+    <!--End jQuery DatePicker-->
+
+    <script src="https://www.amgtessa.co.uk/assets/js/zoom.js"></script>
+
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+    </script>
+    <script language="Javascript" type="text/javascript" src="js/validate.js"></script>
+    <script language="JavaScript" type="text/JavaScript">
+<!--
+
+function RequestNoLetter(vfield,vfield2) 
+{
+    alert("A quote has been requested from AMGM, an email has been sent, no letter will be generated");
+    vfield.value = '2026-04-30 11:44:29';
+    vfield2.value="yes";
+    document.formdetails.submit();
+}
+
+function Request(vfield,vFC)
+{
+	vfield.value='2026-04-30 11:44:29';
+	document.formdetails.submit();
+	window.open("99Letters.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vLetter=4&vSel=1&vSel2="+vFC);
+}
+
+function RequestClient()
+{
+	if(checkvals(document.formdetails.vQuote1)==false)
+		return false;
+	if(checkvals(document.formdetails.vQuote2)==false)
+		return false;
+	if(checkvals(document.formdetails.vQuote3)==false)
+		return false;
+
+	document.formdetails.vDateClient.value = '2026-04-30';
+	window.open("99Letters.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vLetter=5&vSel=1");
+	document.formdetails.submit();
+}
+
+
+function validate()
+{
+
+    if (!checkAuthorisedIsLowest()) {
+        return false;
+    } 
+
+	if(checkvals(document.formdetails.vQuote1)==false)
+		return false;
+	if(checkvals(document.formdetails.vQuote2)==false)
+		return false;
+	if(checkvals(document.formdetails.vQuote3)==false)
+	    return false;
+	if (document.formdetails.vCategory.selectedIndex == 0) 
+    {
+	    alert("Please select a category");
+	    return false;
+	}
+}
+
+function IsNumeric(strString)
+   //  check for valid numeric strings	
+   {
+   var strValidChars = "0123456789.-";
+   var strChar;
+   var blnResult = true;
+
+   if (strString.length == 0) return false;
+
+   //  test strString consists of valid characters listed above
+   for (i = 0; i < strString.length && blnResult == true; i++)
+      {
+      strChar = strString.charAt(i);
+      if (strValidChars.indexOf(strChar) == -1)
+         {
+         blnResult = false;
+         }
+      }
+   return blnResult;
+   }
+
+//-->
+</script>
+
+    <!--  <script>
+        function checkAuthorisedIsLowest() {
+            var quotes = [];
+
+            for (var i = 1; i <= 3; i++) {
+                var quoteInput = document.formdetails['vQuote' + i];
+                console.log('row ' + i + ' input:', quoteInput, 'value:', quoteInput ? quoteInput.value : 'N/A');
+
+                if (!quoteInput || quoteInput.value === '') continue;
+
+                var val = parseFloat(quoteInput.value);
+                if (isNaN(val)) continue;
+
+                var authValue = '';
+                var radios = document.querySelectorAll('input[name="vAuth' + i + '"]');
+                radios.forEach(function (r) {
+                    if (r.checked) authValue = r.value;
+                });
+
+                console.log('row ' + i + ' val:', val, 'auth:', authValue);
+                quotes.push({ row: i, value: val, auth: authValue });
+            }
+
+            console.log('quotes array:', quotes);
+
+            var authorisedRow = quotes.find(function (q) { return q.auth === 'Authorised'; });
+            console.log('authorised row:', authorisedRow);
+
+            if (!authorisedRow) return true;
+
+            var lowest = quotes.reduce(function (min, q) { return q.value < min.value ? q : min; }, quotes[0]);
+            console.log('lowest row:', lowest);
+            console.log('are they different?', authorisedRow.row !== lowest.row);
+
+            if (authorisedRow.row !== lowest.row) {
+                return confirm('Quote ' + authorisedRow.row + ' (£' + authorisedRow.value + ') is authorised but Quote ' + lowest.row + ' (£' + lowest.value + ') is lower. Submit anyway?');
+            }
+
+            return true;
+        }
+    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function checkAuthorisedIsLowest() {
+            var quotes = [];
+
+            for (var i = 1; i <= 3; i++) {
+                var quoteInput = document.formdetails['vQuote' + i];
+                if (!quoteInput || quoteInput.value === '') continue;
+
+                var val = parseFloat(quoteInput.value);
+                if (isNaN(val)) continue;
+
+                var authValue = '';
+                var radios = document.querySelectorAll('input[name="vAuth' + i + '"]');
+                radios.forEach(function (r) {
+                    if (r.checked) authValue = r.value;
+                });
+
+                // Get contractor name from the select
+                var contractorSelect = document.formdetails['vContractorID_FK' + i];
+                var contractorName = contractorSelect && contractorSelect.options[contractorSelect.selectedIndex]
+                    ? contractorSelect.options[contractorSelect.selectedIndex].text
+                    : 'Quote ' + i;
+
+                quotes.push({ row: i, value: val, auth: authValue, name: contractorName });
+
+            }
+
+            if (quotes.length === 0) return true;
+
+            var lowest = quotes.reduce(function (min, q) { return q.value < min.value ? q : min; }, quotes[0]);
+            var authorisedRows = quotes.filter(function (q) { return q.auth === 'Authorised'; });
+            var notAuthorisedRows = quotes.filter(function (q) { return q.auth === 'Not Auth'; });
+            var higherAuthorised = authorisedRows.filter(function (q) { return q.row !== lowest.row; });
+            var lowestNotAuthed = notAuthorisedRows.find(function (q) { return q.row === lowest.row; });
+
+            // Build up any warnings to chain
+            var warnings = [];
+
+            if (authorisedRows.length > 1) {
+                var authList = authorisedRows.map(function (q) {
+                    return '<tr' + (q.row === lowest.row ? ' class="table-success"' : '') + '>' +
+                        '<td class="fw-bold">' + q.name + '</td>' +
+                        '<td>£' + q.value + '</td>' +
+                        '<td><span class="badge ' + (q.row === lowest.row ? 'bg-success' : 'bg-warning') + '">' + (q.row === lowest.row ? 'Lowest' : 'Authorised') + '</span></td>' +
+                        '</tr>';
+                }).join('');
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Multiple Quotes Authorised',
+                    blockSubmit: true,
+                    html: '<p class="mb-3">You have authorised multiple quotes - please only select one. <br> <br> The cheapest quote is <strong>' + lowest.name + ' (£' + lowest.value + ')</strong>.</p>' +
+                        '<table class="table table-sm small table-bordered">' +
+                        '<thead><tr>' +
+                        '<th>Contractor</th><th>Quote (ex VAT)</th><th>Status</th>' +
+                        '</tr></thead>' +
+                        '<tbody>' + authList + '</tbody>' +
+                        '</table>'
+                });
+            }
+
+            if (higherAuthorised.length > 0) {
+                var higherList = higherAuthorised.map(function (q) {
+                    return '<tr class="table-warning">' +
+                        '<td class="fw-bold">' + q.name + '</td>' +
+                        '<td>£' + q.value + '</td>' +
+                        '<td><span class="badge bg-warning text-dark">Authorised</span></td>' +
+                        '</tr>';
+                }).join('');
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Higher Quote Authorised',
+                    html: '<p class="mb-3">The following quote has been authorised but is <strong>not the lowest</strong> received.</p> The cheapest quote is <strong>' + lowest.name + ' (£' + lowest.value + ')</strong>.</p>' +
+                        '<table class="table table-sm small table-bordered">' +
+                        '<thead><tr>' +
+                        '<th>Contractor</th><th>Quote (ex VAT)</th><th>Status</th>' +
+                        '</tr></thead>' +
+                        '<tbody>' +
+                        higherList +
+                        '<tr class="table-success">' +
+                        '<td class="fw-bold">' + lowest.name + '</td>' +
+                        '<td>£' + lowest.value + '</td>' +
+                        '<td><span class="badge bg-success">Lowest</span></td>' +
+                        '</tr>' +
+                        '</tbody></table>' +
+                        '<p class="text-danger fw-bold mt-4">Are you sure you want proceed with authorising a higher quote?</p>'
+                });
+            }
+
+            if (lowestNotAuthed) {
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Lowest Quote Rejected',
+                    html: '<p class="mb-3">The lowest quote received has been marked as <strong>Not Authorised</strong>.</p>' +
+                        '<table class="table table-sm small table-bordered">' +
+                        '<thead><tr>' +
+                        '<th>Contractor</th><th>Quote (ex VAT)</th><th>Status</th>' +
+                        '</tr></thead>' +
+                        '<tbody>' +
+                        '<tr class="table-danger">' +
+                        '<td class="fw-bold">' + lowest.name + '</td>' +
+                        '<td>£' + lowest.value + '</td>' +
+                        '<td><span class="badge bg-danger">Not Authorised</span></td>' +
+                        '</tr>' +
+                        '</tbody></table>' +
+                        '<p class="small mt-2">Are you sure you want to reject the lowest quote?</p>'
+                });
+            }
+
+            if (warnings.length === 0) return true;
+
+            // Chain the warnings using SweetAlert2 - if user cancels any, block submit
+            event.preventDefault();
+
+            function showNext(index) {
+                if (index >= warnings.length) {
+                    document.formdetails.onsubmit = null;
+                    document.formdetails.submit();
+                    return;
+                }
+
+                Swal.fire({
+                    icon: warnings[index].icon,
+                    title: warnings[index].title,
+                    html: warnings[index].html,
+                    showCancelButton: warnings[index].blockSubmit ? false : true,
+                    showConfirmButton: true,
+                    confirmButtonText: warnings[index].blockSubmit ? 'Go back' : 'Yes, continue',
+                    cancelButtonText: 'Go back',
+                    confirmButtonColor: warnings[index].blockSubmit ? '#d33' : '#45997F',
+                    cancelButtonColor: '#d33',
+                    width: 'auto',
+                    customClass: {
+                        htmlContainer: 'text-start',
+                        popup: 'p-4'
+                    }
+                }).then(function (result) {
+                    if (result.isConfirmed && !warnings[index].blockSubmit) {
+                        showNext(index + 1);
+                    }
+                    // if blockSubmit, confirm just closes the dialog — nothing proceeds
+                });
+            }
+
+            showNext(0);
+            return false;
+        }
+    </script>
+    <style>
+        input.form-control {
+            width: auto !important;
+        }
+
+        .quotes td {
+            vertical-align: middle !important;
+            font-size: 8pt;
+        }
+
+        .btn-amg {
+            font-size: 8pt;
+        }
+
+        .input-group-text {
+            height: auto !important;
+            width: 1px !important;
+            padding-right: 24px;
+        }
+    </style>
+
+    <!--Custom Alerts-->
+    <script src="https://www.amgtessa.co.uk/assets/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!--Polyfill for ES6 Promises for IE11 -->
+    <script src="https://www.amgtessa.co.uk/assets/sweetalert2/es6-promise.js"></script>
+
+    <link rel="stylesheet" href="https://www.amgtessa.co.uk/assets/sweetalert2/sweetalert2.min.css">
+    <!--Custom Alerts-->
+
+</head>
+
+
+<body onload="zoom()">
+    <!--AMG Master Heading with logo-->
+    <div class="container-fluid amghead">
+        <a href="/002MainMenu.aspx"><img src="https://www.amgtessa.co.uk/assets/img/tessalogo.png" alt="AMG TESSA">
+        </a>
+        <span class="text-white float-end pe-5 pt-2">Asset Management Group</span>
+        <div class="text-white text-center h5">TSS189032 - Letter Hub, Guildford, Surrey, GU1 3DG</div>
+    </div>
+    <div id="subheadbar">&nbsp;</div>
+    <!--End Master AMG Heading-->
+
+    <!--Links-->
+    <div class="text-center pt-2 small">
+        <a class='green-link font-weight-bold fw-bold' href='99Comms.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1&' target='_blank' rel='opener'>Comms</a><a class='green-link font-weight-bold fw-bold pl-3 ps-3' href='010TalkSheetOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1&' target='_blank' rel='opener'>Talksheet</a><a class="green-link font-weight-bold fw-bold pl-3 ps-3" href="#" onclick="window.open('000CaseHandlerSearch.aspx','CaseHandler','height=125,width=250,menubar=no,toolbar=no');">Handler Search</a><a class='green-link font-weight-bold fw-bold pl-3 ps-3' href='006InstructionAudit.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1&' target='_blank' rel='opener'>Audit</a><a class='green-link font-weight-bold fw-bold pl-3 ps-3' href='010InternalNotesOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1&' target='_blank' rel='opener'>Internal Notes</a>
+    </div>
+    <!--Links-->
+
+
+
+
+    <div class="d-flex justify-content-center">
+        <div class="col-sm-12 col-md-12 col-xxl-11">
+            <div class="card mt-2 all-shadow">
+                <div class="card-header bg-amg text-white pb-1 pt-2">Quotes</div>
+                <div id="subheadbar">&nbsp;</div>
+                <div class="card-body pt-2 ps-2 pe-2">
+
+                    <div id="table-stack">
+                        <!--Quotes-->
+                        <table class="table table-sm table-striped table-hover-amg quotes border-bottom">
+                            <thead class="bg-amg text-white">
+                                <tr style="font-size: 9pt; border-bottom: solid 3px #45997F;">
+                                    <td style="width: 3%;">#</td>
+                                    <td style="width: 13%;">Contractor</td>
+                                    <td style="width: 42%;">Description</td>
+                                    <td style="width: 7%;">Date Instructed</td>
+                                    <td style="width: 7%;">Date Received</td>
+                                    <td style="width: 5%;">Amount</td>
+                                    <td style="width: 6%;">Sent to Client</td>
+                                    <td style="width: 6%;">Authorised By</td>
+                                    <td style="width: 7%;">Authorised Date</td>
+                                    <td>View</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form name="formnew" method="post" action="033QuotesIn.aspx">
+
+                                    <tr>
+                                        <td data-title="Quote No.">1</td>
+                                        <td scope="row" data-title="Contractor">AMG Maintenance</td>
+                                        <td data-title="Quote Description">testing 123...</td>
+                                        <td data-title="Date Instructed">20/05/2026</td>
+                                        <td data-title="Date Received">20/05/2026</td>
+                                        <td data-title="Amount">500.00</td>
+                                        <td data-title="Sent to Client">20/05/2026</td>
+                                        <td data-title="Authorised By">
+
+                                        </td>
+                                        <td data-title="Authorised Date"></td>
+                                        <td data-title="View"><a href="033QuotesOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1" class="btn btn-amg d-block w-100">View</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td data-title="Quote No.">1</td>
+                                        <td scope="row" data-title="Contractor">Humphrey & Gray</td>
+                                        <td data-title="Quote Description">testing 123...</td>
+                                        <td data-title="Date Instructed">20/05/2026</td>
+                                        <td data-title="Date Received">20/05/2026</td>
+                                        <td data-title="Amount">600.00</td>
+                                        <td data-title="Sent to Client">20/05/2026</td>
+                                        <td data-title="Authorised By">
+
+                                        </td>
+                                        <td data-title="Authorised Date"></td>
+                                        <td data-title="View"><a href="033QuotesOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1" class="btn btn-amg d-block w-100">View</a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td data-title="Quote No.">1</td>
+                                        <td scope="row" data-title="Contractor">XLPS</td>
+                                        <td data-title="Quote Description">testing 123...</td>
+                                        <td data-title="Date Instructed">20/05/2026</td>
+                                        <td data-title="Date Received">20/05/2026</td>
+                                        <td data-title="Amount">700.00</td>
+                                        <td data-title="Sent to Client">20/05/2026</td>
+                                        <td data-title="Authorised By">
+
+                                        </td>
+                                        <td data-title="Authorised Date"></td>
+                                        <td data-title="View"><a href="033QuotesOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d&vQuoteID=1" class="btn btn-amg d-block w-100">View</a></td>
+                                    </tr>
+
+                                </form>
+                                <!--End formnew-->
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <!--New Quote-->
+                    <form name="formdetails" method="post" action="/" onsubmit="return validate();">
+                        <div id="table-stack">
+                            <table class="table table-sm quotes">
+                                <thead class="bg-amg text-white">
+                                    <tr style="border-bottom: solid 3px #45997F;">
+                                        <td style="width: 60%;">Description</td>
+                                        <td style="width: 5%;">&nbsp;</td>
+                                        <td style="width: 35%;">Category</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <tr>
+                                        <td scope="row" data-title="Quote Details">
+                                            <textarea name="vDescription" class="form-control form-control-sm" rows="3" class="text2">testing 123...</textarea>
+                                        </td>
+                                        <td>&nbsp;</td>
+
+
+                                        <td colspan="5" data-title="Category">
+                                            <select name="vCategory" id="vCategory" class="form-control form-control-sm form-select form-select-sm" data-style="form-control form-control-sm border" width="auto" required>
+
+                                                <option value="">Please Select...</option>
+
+                                                <option value="1" selected>Animal Handler</option>
+
+                                                <option value="15">Cancellation</option>
+
+                                                <option value="21">Car removal</option>
+
+                                                <option value="2">CDK</option>
+
+                                                <option value="3">Chattel Clear</option>
+
+                                                <option value="22">Chattels valuation</option>
+
+                                                <option value="26">Clean - specialist</option>
+
+                                                <option value="25">Clean - standard</option>
+
+                                                <option value="24">Deep Clean</option>
+
+                                                <option value="27">Document search</option>
+
+                                                <option value="23">Drain down</option>
+
+                                                <option value="4">Emergency Call Out</option>
+
+                                                <option value="14">EPC / HIP</option>
+
+                                                <option value="17">Fumigation</option>
+
+                                                <option value="5">Garden / Yard Maintenance</option>
+
+                                                <option value="6">House Sitting</option>
+
+                                                <option value="16">Insurance</option>
+
+                                                <option value="30">Lock Change</option>
+
+                                                <option value="18">Management Fee</option>
+
+                                                <option value="29">Needle Sweep</option>
+
+                                                <option value="7">Other Removals</option>
+
+                                                <option value="8">Other Repairs</option>
+
+                                                <option value="9">Possession Package - Full</option>
+
+                                                <option value="10">Possession Package - Half</option>
+
+                                                <option value="12">Possession Package - Menu</option>
+
+                                                <option value="20">RICs valuation</option>
+
+                                                <option value="28">Rodent Treatment</option>
+
+                                                <option value="11">Shuttering</option>
+
+                                                <option value="13">Specialist Reports</option>
+
+                                                <option value="19">Waiting Time</option>
+
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="table-stack">
+                            <table class="table table-sm quotes mt-3">
+                                <thead class="bg-amg text-white">
+                                    <tr style="border-bottom: solid 3px #45997F;">
+                                        <td style="width: 1%;">#</td>
+                                        <td style="width: 18%;">Contractors</td>
+                                        <td class="text-center" style="width: 10%;">Date Instructed</td>
+                                        <td class="text-center" style="width: 10%;">Date Received</td>
+                                        <td class="text-center" style="width: 10%;">Quote ex VAT</td>
+                                        <td style="width: 8%;" class="text-center">Quote Request</td>
+                                        <td class="text-center" style="width: 1%;">Authorised</td>
+                                        <td class="text-center" style="width: 5%;">Not Auth</td>
+                                        <td style="width: 10%;">Auth Comments</td>
+                                        <td style="width: 1%;" class="text-center">Remove</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-title="Quote No.">1</td>
+                                        <td data-title="Contractor">
+                                            <select name="vContractorID_FK1" class="form-control form-control-sm form-select form-select-sm" data-style="form-control form-control-sm border">
+                                                <option value="-1" selected>Please Select...</option>
+
+                                                <option value="100" SELECTED>AMG Maintenance</option>
+
+                                                <option value="101">EPS Castellain</option>
+
+                                                <option value="102">Cartus Limited</option>
+
+                                                <option value="103">ESS</option>
+
+                                                <option value="104">Humphrey & Gray</option>
+
+                                                <option value="105">Kinnaird Davies</option>
+
+                                                <option value="106">MoveWithUs</option>
+
+                                                <option value="107">Countrywide CPS</option>
+
+                                                <option value="108">XLPS</option>
+
+                                                <option value="109">3 Sixty</option>
+
+                                                <option value="110">Agents Own</option>
+
+                                                <option value="111">Other</option>
+
+                                                <option value="39656">AMG</option>
+
+                                                <option value="200446">Specialist Xpress </option>
+
+                                                <option value="200719">Inventory Partnership</option>
+
+                                                <option value="201863">J A Tait & Son</option>
+
+                                                <option value="202613">Vacant Property Specialists Ltd</option>
+
+                                                <option value="202762">n/a</option>
+
+                                                <option value="203190">Chris Taylor</option>
+
+                                                <option value="203300">The Inventory Exchange</option>
+
+                                                <option value="203633">Irvine Contractors</option>
+
+                                                <option value="204028">George Hanson BC Ltd.</option>
+
+                                                <option value="205655">DO NOT USE All In Property Services Ltd</option>
+
+                                                <option value="205689">All In Maintenance Services Ltd</option>
+
+                                                <option value="207763">3Sixty</option>
+
+                                                <option value="208643">Orbis</option>
+
+                                                <option value="210330">Pioneer Security Systems Ltd</option>
+
+                                                <option value="210450">P D Roofing</option>
+
+                                                <option value="212233">Optima Legal</option>
+
+                                                <option value="214645">G Works</option>
+
+                                                <option value="215112">Connells</option>
+
+                                                <option value="215607">Energy Reports and Surveys</option>
+
+                                                <option value="218822">The Charlbury Group</option>
+
+                                                <option value="218862">eHips</option>
+
+                                                <option value="218882">Wilsons Auctions - Maintenance dept</option>
+
+                                                <option value="219137">eHIP</option>
+
+                                                <option value="219941">Property Earth</option>
+
+                                                <option value="220766">Optima Services UK LTD</option>
+
+                                                <option value="221091">White Hot Property</option>
+
+                                                <option value="224288">Vibrant Energy Matters</option>
+
+                                                <option value="225342">Esurv</option>
+
+                                                <option value="225767">AMSL</option>
+
+                                                <option value="225768">Clearways</option>
+
+                                                <option value="227897">J&E Shepherd</option>
+
+                                                <option value="228691">DM Hall - Edinburgh Residential HO</option>
+
+                                                <option value="230247"></option>
+
+                                                <option value="230249">Lambert & Foster</option>
+
+                                                <option value="230250">BTF Partnership</option>
+
+                                                <option value="230289">Fast Surveyors</option>
+
+                                                <option value="230290">Allied Surveyors Scotland</option>
+
+                                                <option value="230798">Optima EPC</option>
+
+                                                <option value="230802">TTKW EPC</option>
+
+                                                <option value="231775">Colleys</option>
+
+                                                <option value="233392">Veritas Property Management</option>
+
+                                                <option value="237079">VPS</option>
+
+                                                <option value="237110">Rubix Probate Solutions (UK) Ltd</option>
+
+                                                <option value="237126">Rubix</option>
+
+                                                <option value="237230">Asset Management Support Ltd</option>
+
+                                                <option value="237231">Community Housing Association</option>
+
+                                                <option value="237232">Mitie</option>
+
+                                                <option value="237233">PJ McIlroy and Son</option>
+
+                                                <option value="237234">Prime Lettings</option>
+
+                                                <option value="237235">Scalans Property Management</option>
+
+                                                <option value="237236">Lender</option>
+
+                                                <option value="237907">Thomas Carroll</option>
+
+                                                <option value="238634">Howes Property Solutions</option>
+
+                                                <option value="238854">Nutrade Ltd</option>
+
+                                                <option value="239700">Rubix</option>
+
+                                                <option value="239800">Coram James </option>
+
+                                                <option value="239965">Alder King LLP</option>
+
+                                                <option value="240423">Just Clear</option>
+
+                                                <option value="241627">Allied Surveyors & Valuers Ltd</option>
+
+                                                <option value="242276">Bradleys Surveyors</option>
+
+                                                <option value="242663">Peter Barry Chartered Surveyors</option>
+
+                                                <option value="243612">Gorringes Auction House</option>
+
+                                                <option value="243961">KKC Maintenance Solutions</option>
+
+                                                <option value="244963">Secure Empty Property Limited</option>
+
+                                                <option value="245056">Innes England</option>
+
+                                                <option value="245373">Edward James Surveyors Ltd</option>
+
+                                                <option value="245385">Tayler & Fletcher </option>
+
+                                                <option value="245415">Hugh Greenhouse Chartered Surveyors</option>
+
+                                                <option value="245433">White Horse Surveyors</option>
+
+                                                <option value="245467">Matthews & Co</option>
+
+                                                <option value="245762">Marwood Surveyors Ltd</option>
+
+                                                <option value="245830">Brighter Facilities Management</option>
+
+                                                <option value="245927">Wright Marshall LLP </option>
+
+                                                <option value="246338">East of England Surveys </option>
+
+                                                <option value="246419">Watsons Surveyors </option>
+
+                                                <option value="246450">Huthwaite Freston Wright</option>
+
+                                                <option value="246476">Luxton Surveyors</option>
+
+                                                <option value="246577">Ashwick Chartered Surveyors</option>
+
+                                                <option value="246587">The Image Tailor</option>
+
+                                                <option value="246590">Mike Naylor Chartered Surveyors</option>
+
+                                                <option value="246629">Chamberlains Surveyors LTD</option>
+
+                                                <option value="246661">Focal Agent </option>
+
+                                                <option value="246691">Berrys Chartered Surveyors and Valuers</option>
+
+                                                <option value="246719">Capital Chartered Surveyors</option>
+
+                                                <option value="246742">Thwaytes Chartered Surveyors</option>
+
+                                                <option value="246743">Marten & Carnaby Ltd </option>
+
+                                                <option value="246778">VOSPERS Chartered Surveyors & Valuers</option>
+
+                                                <option value="246804">Aspect Surveyors Limited </option>
+
+                                                <option value="246838">Clarke Hillyer</option>
+
+                                                <option value="246871">Kirkhams Surveyors & Valuers Ltd</option>
+
+                                                <option value="246995">Arnold & Baldwin Chartered Surveyors</option>
+
+                                                <option value="247054">Approche Construction </option>
+
+                                                <option value="247105">Box Residential </option>
+
+                                                <option value="247195">Bakemans Limited Chartered Surveyors</option>
+
+                                                <option value="247214">Blackman Chartered Surveyors</option>
+
+                                                <option value="247236">The Merchant</option>
+
+                                                <option value="247352">FP Surveying </option>
+
+                                                <option value="247378">Surveyor Sorted</option>
+
+                                                <option value="247381">Joe Fraser Chartered Surveyors </option>
+
+                                                <option value="247432">Green Vale Ltd</option>
+
+                                                <option value="247493">Abercorn Surveyors LTD</option>
+
+                                                <option value="247519">Avon Surveying Services Ltd</option>
+
+                                                <option value="247571">David Beaumont & Associates Surveyors</option>
+
+                                                <option value="247576">The Brown Rural Partnership</option>
+
+                                                <option value="247683">Tamlyns Chartered Surveyors</option>
+
+                                                <option value="247700">Jones Battye Chartered Surveyors</option>
+
+                                                <option value="247746">Millerson</option>
+
+                                                <option value="247760">G A Leask Builders</option>
+
+                                                <option value="247761">G A Leask Builders</option>
+
+                                                <option value="247786">Easton Surveyors Limited</option>
+
+                                                <option value="247811">Independent Inventory Services</option>
+
+                                                <option value="247868">Resolution Property Surveyors </option>
+
+                                                <option value="247979">Robert Oulsnam & Co</option>
+
+                                                <option value="248050">Aston Bradley Chartered Surveyors</option>
+
+                                                <option value="248114">DHKK</option>
+
+                                                <option value="248188">Castle Surveyors</option>
+
+                                                <option value="248213">Dorset Property Surveys</option>
+
+                                                <option value="248218">Fitton Estates</option>
+
+                                                <option value="248242">General Maintenance Co</option>
+
+                                                <option value="248274">Appleby Smith Chartered Surveyors</option>
+
+                                                <option value="248278">Lea Hough Chartered Surveyors</option>
+
+                                                <option value="248293">W.C. Dawson & Son</option>
+
+                                                <option value="248341">Lucas Lee</option>
+
+                                                <option value="248450">Osborne King</option>
+
+                                                <option value="248452">Williamsons Surveyors</option>
+
+                                                <option value="248458">Bagshaws</option>
+
+                                                <option value="248459">TMA Surveyors</option>
+
+                                                <option value="248460">TMA Surveyors</option>
+
+                                                <option value="248520">Your Move - Livingston</option>
+
+                                                <option value="248761">Jamie Black</option>
+
+                                                <option value="250218">May Whetter & Grose</option>
+
+                                                <option value="253908">Map Chartered Surveyors</option>
+
+                                                <option value="254344">Auctioneum Ltd</option>
+
+                                                <option value="254374">Kidner & Reeves</option>
+
+                                                <option value="254405">Byrnes Auctioneers and Valuers</option>
+
+                                                <option value="254564">Ewbank Auctions</option>
+
+                                                <option value="254606">Ellis Willis & Beckett</option>
+
+                                                <option value="254639">Michael Mould Clearance Services</option>
+
+                                                <option value="254659">Zinc</option>
+
+                                                <option value="254936">Thomas N Miller Auctioneers</option>
+
+                                                <option value="255166">Bearnes Hampton Littlewood</option>
+
+                                                <option value="255167">Eldreds</option>
+
+                                                <option value="255168">Maxwells</option>
+
+                                                <option value="255738">T and T Removals and Clearance</option>
+
+                                                <option value="255874">Secure Empty Property </option>
+
+                                                <option value="256194">Mellors and Kirk</option>
+
+                                                <option value="256195">Flame UK</option>
+
+                                                <option value="256344">Duggleby Estates</option>
+
+                                                <option value="256555">Just Clear (Scotland)</option>
+
+                                                <option value="256652">Nicholas Muston Antique Valuations</option>
+
+                                                <option value="256666">McTear`s Auctioneers</option>
+
+                                                <option value="256957">Lacy Scott & Knight Auctioneers</option>
+
+                                            </select>
+                                        </td>
+                                        <td data-title="Date Instructed">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateInstructed1" type="text" class="form-control form-control-sm datepicker" value="05/03/2026" size="7" />
+                                                <input name="vQuoteReq1" type="hidden" value="" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Date Received">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateReceived1" type="text" size="7" class="form-control form-control-sm datepicker" value="18/03/2025" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Quote ex VAT">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-lg fa-pound-sign" aria-hidden="true"></i>
+                                                </span>
+
+                                                <input name="vQuote1" type="text" size="7" class="form-control form-control-sm" value="500" OnChange="if(!IsNumeric(this.value)){ alert('Please ensure you enter a number!'); this.value='';}" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center" data-title="Request Quote"><a href="#" class="btn btn-amg pt-1 pb-1 col-md-12 col-xxl-9" onClick="Request(document.formdetails.vDateInstructed1,1);">Request</a></td>
+                                        <td class="text-center" data-title="Authorised?">
+                                            <input type="radio" name="vAuth1" value="Authorised" />
+                                            <input name="vAuthDate1" type="hidden" value="" />
+                                        </td>
+                                        <td class="text-center" data-title="Not Authorised?">
+                                            <input type="radio" name="vAuth1" value="Not Auth" />
+                                        </td>
+                                        <td data-title="Authorisation Notes">
+                                            <input name="vClient1" type="text" size="17" class="form-control form-control-sm" id="vClient1" data-toggle="tooltip" data-placement="top" title="" value="" />
+                                        </td>
+
+                                        <td data-title="Delete Quote?">
+                                            <div class="text-center">
+                                                <input name="vDel1" type="checkbox" id="vDel1" value="1">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-title="Quote No.">2</td>
+                                        <td data-title="Contractor">
+                                            <select name="vContractorID_FK2" class="form-control form-control-sm form-select form-select-sm" data-style="form-control form-control-sm border">
+
+                                                <option value="-1" selected>Please Select...</option>
+
+                                                <option value="100">AMG Maintenance</option>
+
+                                                <option value="101">EPS Castellain</option>
+
+                                                <option value="102">Cartus Limited</option>
+
+                                                <option value="103">ESS</option>
+
+                                                <option value="104" SELECTED>Humphrey & Gray</option>
+
+                                                <option value="105">Kinnaird Davies</option>
+
+                                                <option value="106">MoveWithUs</option>
+
+                                                <option value="107">Countrywide CPS</option>
+
+                                                <option value="108">XLPS</option>
+
+                                                <option value="109">3 Sixty</option>
+
+                                                <option value="110">Agents Own</option>
+
+                                                <option value="111">Other</option>
+
+                                                <option value="39656">AMG</option>
+
+                                                <option value="200446">Specialist Xpress </option>
+
+                                                <option value="200719">Inventory Partnership</option>
+
+                                                <option value="201863">J A Tait & Son</option>
+
+                                                <option value="202613">Vacant Property Specialists Ltd</option>
+
+                                                <option value="202762">n/a</option>
+
+                                                <option value="203190">Chris Taylor</option>
+
+                                                <option value="203300">The Inventory Exchange</option>
+
+                                                <option value="203633">Irvine Contractors</option>
+
+                                                <option value="204028">George Hanson BC Ltd.</option>
+
+                                                <option value="205655">DO NOT USE All In Property Services Ltd</option>
+
+                                                <option value="205689">All In Maintenance Services Ltd</option>
+
+                                                <option value="207763">3Sixty</option>
+
+                                                <option value="208643">Orbis</option>
+
+                                                <option value="210330">Pioneer Security Systems Ltd</option>
+
+                                                <option value="210450">P D Roofing</option>
+
+                                                <option value="212233">Optima Legal</option>
+
+                                                <option value="214645">G Works</option>
+
+                                                <option value="215112">Connells</option>
+
+                                                <option value="215607">Energy Reports and Surveys</option>
+
+                                                <option value="218822">The Charlbury Group</option>
+
+                                                <option value="218862">eHips</option>
+
+                                                <option value="218882">Wilsons Auctions - Maintenance dept</option>
+
+                                                <option value="219137">eHIP</option>
+
+                                                <option value="219941">Property Earth</option>
+
+                                                <option value="220766">Optima Services UK LTD</option>
+
+                                                <option value="221091">White Hot Property</option>
+
+                                                <option value="224288">Vibrant Energy Matters</option>
+
+                                                <option value="225342">Esurv</option>
+
+                                                <option value="225767">AMSL</option>
+
+                                                <option value="225768">Clearways</option>
+
+                                                <option value="227897">J&E Shepherd</option>
+
+                                                <option value="228691">DM Hall - Edinburgh Residential HO</option>
+
+                                                <option value="230247"></option>
+
+                                                <option value="230249">Lambert & Foster</option>
+
+                                                <option value="230250">BTF Partnership</option>
+
+                                                <option value="230289">Fast Surveyors</option>
+
+                                                <option value="230290">Allied Surveyors Scotland</option>
+
+                                                <option value="230798">Optima EPC</option>
+
+                                                <option value="230802">TTKW EPC</option>
+
+                                                <option value="231775">Colleys</option>
+
+                                                <option value="233392">Veritas Property Management</option>
+
+                                                <option value="237079">VPS</option>
+
+                                                <option value="237110">Rubix Probate Solutions (UK) Ltd</option>
+
+                                                <option value="237126">Rubix</option>
+
+                                                <option value="237230">Asset Management Support Ltd</option>
+
+                                                <option value="237231">Community Housing Association</option>
+
+                                                <option value="237232">Mitie</option>
+
+                                                <option value="237233">PJ McIlroy and Son</option>
+
+                                                <option value="237234">Prime Lettings</option>
+
+                                                <option value="237235">Scalans Property Management</option>
+
+                                                <option value="237236">Lender</option>
+
+                                                <option value="237907">Thomas Carroll</option>
+
+                                                <option value="238634">Howes Property Solutions</option>
+
+                                                <option value="238854">Nutrade Ltd</option>
+
+                                                <option value="239700">Rubix</option>
+
+                                                <option value="239800">Coram James </option>
+
+                                                <option value="239965">Alder King LLP</option>
+
+                                                <option value="240423">Just Clear</option>
+
+                                                <option value="241627">Allied Surveyors & Valuers Ltd</option>
+
+                                                <option value="242276">Bradleys Surveyors</option>
+
+                                                <option value="242663">Peter Barry Chartered Surveyors</option>
+
+                                                <option value="243612">Gorringes Auction House</option>
+
+                                                <option value="243961">KKC Maintenance Solutions</option>
+
+                                                <option value="244963">Secure Empty Property Limited</option>
+
+                                                <option value="245056">Innes England</option>
+
+                                                <option value="245373">Edward James Surveyors Ltd</option>
+
+                                                <option value="245385">Tayler & Fletcher </option>
+
+                                                <option value="245415">Hugh Greenhouse Chartered Surveyors</option>
+
+                                                <option value="245433">White Horse Surveyors</option>
+
+                                                <option value="245467">Matthews & Co</option>
+
+                                                <option value="245762">Marwood Surveyors Ltd</option>
+
+                                                <option value="245830">Brighter Facilities Management</option>
+
+                                                <option value="245927">Wright Marshall LLP </option>
+
+                                                <option value="246338">East of England Surveys </option>
+
+                                                <option value="246419">Watsons Surveyors </option>
+
+                                                <option value="246450">Huthwaite Freston Wright</option>
+
+                                                <option value="246476">Luxton Surveyors</option>
+
+                                                <option value="246577">Ashwick Chartered Surveyors</option>
+
+                                                <option value="246587">The Image Tailor</option>
+
+                                                <option value="246590">Mike Naylor Chartered Surveyors</option>
+
+                                                <option value="246629">Chamberlains Surveyors LTD</option>
+
+                                                <option value="246661">Focal Agent </option>
+
+                                                <option value="246691">Berrys Chartered Surveyors and Valuers</option>
+
+                                                <option value="246719">Capital Chartered Surveyors</option>
+
+                                                <option value="246742">Thwaytes Chartered Surveyors</option>
+
+                                                <option value="246743">Marten & Carnaby Ltd </option>
+
+                                                <option value="246778">VOSPERS Chartered Surveyors & Valuers</option>
+
+                                                <option value="246804">Aspect Surveyors Limited </option>
+
+                                                <option value="246838">Clarke Hillyer</option>
+
+                                                <option value="246871">Kirkhams Surveyors & Valuers Ltd</option>
+
+                                                <option value="246995">Arnold & Baldwin Chartered Surveyors</option>
+
+                                                <option value="247054">Approche Construction </option>
+
+                                                <option value="247105">Box Residential </option>
+
+                                                <option value="247195">Bakemans Limited Chartered Surveyors</option>
+
+                                                <option value="247214">Blackman Chartered Surveyors</option>
+
+                                                <option value="247236">The Merchant</option>
+
+                                                <option value="247352">FP Surveying </option>
+
+                                                <option value="247378">Surveyor Sorted</option>
+
+                                                <option value="247381">Joe Fraser Chartered Surveyors </option>
+
+                                                <option value="247432">Green Vale Ltd</option>
+
+                                                <option value="247493">Abercorn Surveyors LTD</option>
+
+                                                <option value="247519">Avon Surveying Services Ltd</option>
+
+                                                <option value="247571">David Beaumont & Associates Surveyors</option>
+
+                                                <option value="247576">The Brown Rural Partnership</option>
+
+                                                <option value="247683">Tamlyns Chartered Surveyors</option>
+
+                                                <option value="247700">Jones Battye Chartered Surveyors</option>
+
+                                                <option value="247746">Millerson</option>
+
+                                                <option value="247760">G A Leask Builders</option>
+
+                                                <option value="247761">G A Leask Builders</option>
+
+                                                <option value="247786">Easton Surveyors Limited</option>
+
+                                                <option value="247811">Independent Inventory Services</option>
+
+                                                <option value="247868">Resolution Property Surveyors </option>
+
+                                                <option value="247979">Robert Oulsnam & Co</option>
+
+                                                <option value="248050">Aston Bradley Chartered Surveyors</option>
+
+                                                <option value="248114">DHKK</option>
+
+                                                <option value="248188">Castle Surveyors</option>
+
+                                                <option value="248213">Dorset Property Surveys</option>
+
+                                                <option value="248218">Fitton Estates</option>
+
+                                                <option value="248242">General Maintenance Co</option>
+
+                                                <option value="248274">Appleby Smith Chartered Surveyors</option>
+
+                                                <option value="248278">Lea Hough Chartered Surveyors</option>
+
+                                                <option value="248293">W.C. Dawson & Son</option>
+
+                                                <option value="248341">Lucas Lee</option>
+
+                                                <option value="248450">Osborne King</option>
+
+                                                <option value="248452">Williamsons Surveyors</option>
+
+                                                <option value="248458">Bagshaws</option>
+
+                                                <option value="248459">TMA Surveyors</option>
+
+                                                <option value="248460">TMA Surveyors</option>
+
+                                                <option value="248520">Your Move - Livingston</option>
+
+                                                <option value="248761">Jamie Black</option>
+
+                                                <option value="250218">May Whetter & Grose</option>
+
+                                                <option value="253908">Map Chartered Surveyors</option>
+
+                                                <option value="254344">Auctioneum Ltd</option>
+
+                                                <option value="254374">Kidner & Reeves</option>
+
+                                                <option value="254405">Byrnes Auctioneers and Valuers</option>
+
+                                                <option value="254564">Ewbank Auctions</option>
+
+                                                <option value="254606">Ellis Willis & Beckett</option>
+
+                                                <option value="254639">Michael Mould Clearance Services</option>
+
+                                                <option value="254659">Zinc</option>
+
+                                                <option value="254936">Thomas N Miller Auctioneers</option>
+
+                                                <option value="255166">Bearnes Hampton Littlewood</option>
+
+                                                <option value="255167">Eldreds</option>
+
+                                                <option value="255168">Maxwells</option>
+
+                                                <option value="255738">T and T Removals and Clearance</option>
+
+                                                <option value="255874">Secure Empty Property </option>
+
+                                                <option value="256194">Mellors and Kirk</option>
+
+                                                <option value="256195">Flame UK</option>
+
+                                                <option value="256344">Duggleby Estates</option>
+
+                                                <option value="256555">Just Clear (Scotland)</option>
+
+                                                <option value="256652">Nicholas Muston Antique Valuations</option>
+
+                                                <option value="256666">McTear`s Auctioneers</option>
+
+                                                <option value="256957">Lacy Scott & Knight Auctioneers</option>
+
+                                            </select>
+                                        </td>
+                                        <td data-title="Date Instructed">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateInstructed2" type="text" size="7" class="form-control form-control-sm datepicker" id="vDateInstructed2" value="18/03/2025" />
+                                                <input name="vQuoteReq2" type="hidden" value="" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Date Received">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateReceived2" type="text" size="7" class="form-control form-control-sm datepicker" id="vDateReceived2" value="18/03/2025" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Quote ex VAT">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-lg fa-pound-sign" aria-hidden="true"></i>
+                                                </span>
+
+                                                <input name="vQuote2" type="text" size="7" class="form-control form-control-sm" size="4" id="vQuote2" value="600" OnChange="if(!IsNumeric(this.value)){ alert('Please ensure you enter a number!'); this.value='';}" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center" data-title="Request Quote">
+                                            <a href="#" class="btn btn-amg pt-1 pb-1 col-md-12 col-xxl-9" onClick="Request(document.formdetails.vDateInstructed2,2);">Request</a>
+                                        </td>
+                                        <td class="text-center" data-title="Authorised?">
+                                            <input type="radio" name="vAuth2" value="Authorised" />
+                                            <input name="vAuthDate2" type="hidden" value="" />
+                                        </td>
+                                        <td class="text-center" data-title="Not Authorised?">
+                                            <input type="radio" name="vAuth2" value="Not Auth" />
+                                        </td>
+                                        <td data-title="Authorisation Notes">
+                                            <input name="vClient2" class="form-control form-control-sm" type="text" size="17" data-toggle="tooltip" data-placement="top" title="" id="vClient2" value="" />
+                                        </td>
+
+                                        <td class="text-center" data-title="Delete Quote?">
+                                            <input name="vDel2" type="checkbox" id="vDel2" value="2">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td data-title="Quote No.">3</td>
+                                        <td data-title="Contractor">
+                                            <select name="vContractorID_FK3" class="form-control form-control-sm form-select form-select-sm" data-style="form-control form-control-sm border">
+
+                                                <option value="-1">Please Select...</option>
+
+                                                <option value="100">AMG Maintenance</option>
+
+                                                <option value="101">EPS Castellain</option>
+
+                                                <option value="102">Cartus Limited</option>
+
+                                                <option value="103">ESS</option>
+
+                                                <option value="104">Humphrey & Gray</option>
+
+                                                <option value="105">Kinnaird Davies</option>
+
+                                                <option value="106">MoveWithUs</option>
+
+                                                <option value="107">Countrywide CPS</option>
+
+                                                <option value="108" selected>XLPS</option>
+
+                                                <option value="109">3 Sixty</option>
+
+                                                <option value="110">Agents Own</option>
+
+                                                <option value="111">Other</option>
+
+                                                <option value="39656">AMG</option>
+
+                                                <option value="200446">Specialist Xpress </option>
+
+                                                <option value="200719">Inventory Partnership</option>
+
+                                                <option value="201863">J A Tait & Son</option>
+
+                                                <option value="202613">Vacant Property Specialists Ltd</option>
+
+                                                <option value="202762">n/a</option>
+
+                                                <option value="203190">Chris Taylor</option>
+
+                                                <option value="203300">The Inventory Exchange</option>
+
+                                                <option value="203633">Irvine Contractors</option>
+
+                                                <option value="204028">George Hanson BC Ltd.</option>
+
+                                                <option value="205655">DO NOT USE All In Property Services Ltd</option>
+
+                                                <option value="205689">All In Maintenance Services Ltd</option>
+
+                                                <option value="207763">3Sixty</option>
+
+                                                <option value="208643">Orbis</option>
+
+                                                <option value="210330">Pioneer Security Systems Ltd</option>
+
+                                                <option value="210450">P D Roofing</option>
+
+                                                <option value="212233">Optima Legal</option>
+
+                                                <option value="214645">G Works</option>
+
+                                                <option value="215112">Connells</option>
+
+                                                <option value="215607">Energy Reports and Surveys</option>
+
+                                                <option value="218822">The Charlbury Group</option>
+
+                                                <option value="218862">eHips</option>
+
+                                                <option value="218882">Wilsons Auctions - Maintenance dept</option>
+
+                                                <option value="219137">eHIP</option>
+
+                                                <option value="219941">Property Earth</option>
+
+                                                <option value="220766">Optima Services UK LTD</option>
+
+                                                <option value="221091">White Hot Property</option>
+
+                                                <option value="224288">Vibrant Energy Matters</option>
+
+                                                <option value="225342">Esurv</option>
+
+                                                <option value="225767">AMSL</option>
+
+                                                <option value="225768">Clearways</option>
+
+                                                <option value="227897">J&E Shepherd</option>
+
+                                                <option value="228691">DM Hall - Edinburgh Residential HO</option>
+
+                                                <option value="230247"></option>
+
+                                                <option value="230249">Lambert & Foster</option>
+
+                                                <option value="230250">BTF Partnership</option>
+
+                                                <option value="230289">Fast Surveyors</option>
+
+                                                <option value="230290">Allied Surveyors Scotland</option>
+
+                                                <option value="230798">Optima EPC</option>
+
+                                                <option value="230802">TTKW EPC</option>
+
+                                                <option value="231775">Colleys</option>
+
+                                                <option value="233392">Veritas Property Management</option>
+
+                                                <option value="237079">VPS</option>
+
+                                                <option value="237110">Rubix Probate Solutions (UK) Ltd</option>
+
+                                                <option value="237126">Rubix</option>
+
+                                                <option value="237230">Asset Management Support Ltd</option>
+
+                                                <option value="237231">Community Housing Association</option>
+
+                                                <option value="237232">Mitie</option>
+
+                                                <option value="237233">PJ McIlroy and Son</option>
+
+                                                <option value="237234">Prime Lettings</option>
+
+                                                <option value="237235">Scalans Property Management</option>
+
+                                                <option value="237236">Lender</option>
+
+                                                <option value="237907">Thomas Carroll</option>
+
+                                                <option value="238634">Howes Property Solutions</option>
+
+                                                <option value="238854">Nutrade Ltd</option>
+
+                                                <option value="239700">Rubix</option>
+
+                                                <option value="239800">Coram James </option>
+
+                                                <option value="239965">Alder King LLP</option>
+
+                                                <option value="240423">Just Clear</option>
+
+                                                <option value="241627">Allied Surveyors & Valuers Ltd</option>
+
+                                                <option value="242276">Bradleys Surveyors</option>
+
+                                                <option value="242663">Peter Barry Chartered Surveyors</option>
+
+                                                <option value="243612">Gorringes Auction House</option>
+
+                                                <option value="243961">KKC Maintenance Solutions</option>
+
+                                                <option value="244963">Secure Empty Property Limited</option>
+
+                                                <option value="245056">Innes England</option>
+
+                                                <option value="245373">Edward James Surveyors Ltd</option>
+
+                                                <option value="245385">Tayler & Fletcher </option>
+
+                                                <option value="245415">Hugh Greenhouse Chartered Surveyors</option>
+
+                                                <option value="245433">White Horse Surveyors</option>
+
+                                                <option value="245467">Matthews & Co</option>
+
+                                                <option value="245762">Marwood Surveyors Ltd</option>
+
+                                                <option value="245830">Brighter Facilities Management</option>
+
+                                                <option value="245927">Wright Marshall LLP </option>
+
+                                                <option value="246338">East of England Surveys </option>
+
+                                                <option value="246419">Watsons Surveyors </option>
+
+                                                <option value="246450">Huthwaite Freston Wright</option>
+
+                                                <option value="246476">Luxton Surveyors</option>
+
+                                                <option value="246577">Ashwick Chartered Surveyors</option>
+
+                                                <option value="246587">The Image Tailor</option>
+
+                                                <option value="246590">Mike Naylor Chartered Surveyors</option>
+
+                                                <option value="246629">Chamberlains Surveyors LTD</option>
+
+                                                <option value="246661">Focal Agent </option>
+
+                                                <option value="246691">Berrys Chartered Surveyors and Valuers</option>
+
+                                                <option value="246719">Capital Chartered Surveyors</option>
+
+                                                <option value="246742">Thwaytes Chartered Surveyors</option>
+
+                                                <option value="246743">Marten & Carnaby Ltd </option>
+
+                                                <option value="246778">VOSPERS Chartered Surveyors & Valuers</option>
+
+                                                <option value="246804">Aspect Surveyors Limited </option>
+
+                                                <option value="246838">Clarke Hillyer</option>
+
+                                                <option value="246871">Kirkhams Surveyors & Valuers Ltd</option>
+
+                                                <option value="246995">Arnold & Baldwin Chartered Surveyors</option>
+
+                                                <option value="247054">Approche Construction </option>
+
+                                                <option value="247105">Box Residential </option>
+
+                                                <option value="247195">Bakemans Limited Chartered Surveyors</option>
+
+                                                <option value="247214">Blackman Chartered Surveyors</option>
+
+                                                <option value="247236">The Merchant</option>
+
+                                                <option value="247352">FP Surveying </option>
+
+                                                <option value="247378">Surveyor Sorted</option>
+
+                                                <option value="247381">Joe Fraser Chartered Surveyors </option>
+
+                                                <option value="247432">Green Vale Ltd</option>
+
+                                                <option value="247493">Abercorn Surveyors LTD</option>
+
+                                                <option value="247519">Avon Surveying Services Ltd</option>
+
+                                                <option value="247571">David Beaumont & Associates Surveyors</option>
+
+                                                <option value="247576">The Brown Rural Partnership</option>
+
+                                                <option value="247683">Tamlyns Chartered Surveyors</option>
+
+                                                <option value="247700">Jones Battye Chartered Surveyors</option>
+
+                                                <option value="247746">Millerson</option>
+
+                                                <option value="247760">G A Leask Builders</option>
+
+                                                <option value="247761">G A Leask Builders</option>
+
+                                                <option value="247786">Easton Surveyors Limited</option>
+
+                                                <option value="247811">Independent Inventory Services</option>
+
+                                                <option value="247868">Resolution Property Surveyors </option>
+
+                                                <option value="247979">Robert Oulsnam & Co</option>
+
+                                                <option value="248050">Aston Bradley Chartered Surveyors</option>
+
+                                                <option value="248114">DHKK</option>
+
+                                                <option value="248188">Castle Surveyors</option>
+
+                                                <option value="248213">Dorset Property Surveys</option>
+
+                                                <option value="248218">Fitton Estates</option>
+
+                                                <option value="248242">General Maintenance Co</option>
+
+                                                <option value="248274">Appleby Smith Chartered Surveyors</option>
+
+                                                <option value="248278">Lea Hough Chartered Surveyors</option>
+
+                                                <option value="248293">W.C. Dawson & Son</option>
+
+                                                <option value="248341">Lucas Lee</option>
+
+                                                <option value="248450">Osborne King</option>
+
+                                                <option value="248452">Williamsons Surveyors</option>
+
+                                                <option value="248458">Bagshaws</option>
+
+                                                <option value="248459">TMA Surveyors</option>
+
+                                                <option value="248460">TMA Surveyors</option>
+
+                                                <option value="248520">Your Move - Livingston</option>
+
+                                                <option value="248761">Jamie Black</option>
+
+                                                <option value="250218">May Whetter & Grose</option>
+
+                                                <option value="253908">Map Chartered Surveyors</option>
+
+                                                <option value="254344">Auctioneum Ltd</option>
+
+                                                <option value="254374">Kidner & Reeves</option>
+
+                                                <option value="254405">Byrnes Auctioneers and Valuers</option>
+
+                                                <option value="254564">Ewbank Auctions</option>
+
+                                                <option value="254606">Ellis Willis & Beckett</option>
+
+                                                <option value="254639">Michael Mould Clearance Services</option>
+
+                                                <option value="254659">Zinc</option>
+
+                                                <option value="254936">Thomas N Miller Auctioneers</option>
+
+                                                <option value="255166">Bearnes Hampton Littlewood</option>
+
+                                                <option value="255167">Eldreds</option>
+
+                                                <option value="255168">Maxwells</option>
+
+                                                <option value="255738">T and T Removals and Clearance</option>
+
+                                                <option value="255874">Secure Empty Property </option>
+
+                                                <option value="256194">Mellors and Kirk</option>
+
+                                                <option value="256195">Flame UK</option>
+
+                                                <option value="256344">Duggleby Estates</option>
+
+                                                <option value="256555">Just Clear (Scotland)</option>
+
+                                                <option value="256652">Nicholas Muston Antique Valuations</option>
+
+                                                <option value="256666">McTear`s Auctioneers</option>
+
+                                                <option value="256957">Lacy Scott & Knight Auctioneers</option>
+
+                                            </select>
+
+
+                                        </td>
+                                        <td data-title="Date Instructed">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateInstructed3" type="text" size="7" class="form-control form-control-sm datepicker" id="vDateInstructed3" value="20/05/2026" />
+                                                <input name="vQuoteReq3" type="hidden" value="" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Date Received">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input name="vDateReceived3" type="text" size="7" class="form-control form-control-sm datepicker" id="vDateReceived3" value="20/05/2026" />
+                                            </div>
+                                        </td>
+                                        <td data-title="Quote ex VAT">
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-lg fa-pound-sign" aria-hidden="true"></i>
+                                                </span>
+
+                                                <input name="vQuote3" type="text" size="7" class="form-control form-control-sm" id="vQuote3" value="700" OnChange="if(!IsNumeric(this.value)){ alert('Please ensure you enter a number!'); this.value='';}" />
+                                            </div>
+                                        </td>
+                                        <td class="text-center" data-title="Request Quote">
+                                            <a href="#" class="btn btn-amg pt-1 pb-1 col-md-12 col-xxl-9" onClick="Request(document.formdetails.vDateInstructed3,3);">Request</a>
+                                        </td>
+
+                                        <td class="text-center" data-title="Authorised?">
+                                            <input type="radio" name="vAuth3" value="Authorised" />
+                                            <input name="vAuthDate3" type="hidden" value="" />
+                                        </td>
+                                        <td class="text-center" data-title="Not Authorised?">
+                                            <input type="radio" name="vAuth3" value="Not Auth" />
+                                        </td>
+                                        <td data-title="Authorisation Notes">
+                                            <input name="vClient3" type="text" size="17" class="form-control form-control-sm" id="vClient3" value="" data-toggle="tooltip" data-placement="top" title="" />
+                                        </td>
+
+                                        <td class="text-center" data-title="Delete Quote?">
+                                            <input name="vDel3" type="checkbox" id="vDel3" value="3">
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            <a href="#" onClick="RequestClient();" class="btn btn-amg col-md-6 pt-1 pb-1" style="font-size: 9pt;">
+                                                Raise Quote Auth
+                                            </a>
+                                        </td>
+                                        <td class="text-center">date sent to client </td>
+                                        <td>
+                                            <div class="input-group">
+
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-lg fa-calendar-alt"></i>
+                                                </span>
+
+                                                <input type="text" size="7" class="form-control form-control-sm datepicker" name="vDateClient" value="03/04/2025" />
+                                            </div>
+                                        </td>
+
+                                        <td class="text-end">&nbsp;&nbsp;Auth Notes</td>
+                                        <td colspan="5">
+                                            <textarea name="vAuthText" class="form-control form-control-sm" style="width: 100% !important;">Please advise if you wish us to proceed with any of the above quotations</textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <input name="btnsubmit" type="submit" value="Submit"
+                                                class="btn btn-amg col-md-5 pt-1 pb-1 float-start"
+                                                style="font-size: 9pt;">
+                                            <a href="033QuotesOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d"
+                                                class="btn btn-amg col-md-5 pt-1 pb-1 float-end"
+                                                style="font-size: 9pt;">New Quote</a>
+                                        </td>
+                                        <td colspan="8" class="text-end">
+                                            <a href="032MaintenanceOut.aspx?vID=436b645361684a6c54486a38313546535456395763513d3d"
+                                                class="btn btn-amg col-md-2 pt-1 pb-1" style="font-size: 9pt;">Back</a>
+                                        </td>
+                                        <input name="vID" type="hidden" id="vID" value="436b645361684a6c54486a38313546535456395763513d3d" />
+                                        <input name="vQuoteID" type="hidden" id="vQuoteID" value="1" />
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+            <!--End Card Body-->
+
+
+
+        </div>
+
+    </div>
+
+    </div>
+
+
+    <script src="https://www.amgtessa.co.uk/assets/js/fontawesome.min.js"></script>
+    <script src="https://www.amgtessa.co.uk/assets/js/bootstrap.bundle.js"></script>
+    <script src="https://www.amgtessa.co.uk/assets/bootstrapselect/js/bootstrap-select.min.js"></script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        function zoom() {
+            w = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
+            var targetWidth = 1366;
+            if (w <= targetWidth) {
+                document.body.style.zoom = "93%"
+            }
+            else {
+                document.body.style.zoom = "100%"
+            }
+        };
+
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+
+</html>
