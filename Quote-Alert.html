@@ -147,8 +147,7 @@ function IsNumeric(strString)
             return true;
         }
     </script> -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+    <!-- v1   <script>
         function checkAuthorisedIsLowest() {
             var quotes = [];
 
@@ -294,7 +293,160 @@ function IsNumeric(strString)
             showNext(0);
             return false;
         }
+    </script> -->
+
+
+    <script>
+        function checkAuthorisedIsLowest() {
+            const evt = window.event;
+            const quotes = [];
+
+            // --- collect valid quotes ---------------------------------
+            for (let i = 1; i <= 3; i++) {
+                const input = document.formdetails['vQuote' + i];
+                if (!input || input.value === '') continue;
+
+                const val = parseFloat(input.value);
+                if (isNaN(val)) continue;
+
+                const authEl = document.querySelector(`input[name="vAuth${i}"]:checked`);
+                const authValue = authEl ? authEl.value : '';
+
+                const sel = document.formdetails['vContractorID_FK' + i];
+                let contractorName = 'Quote ' + i;
+                if (sel && sel.selectedIndex >= 0) {
+                    contractorName = sel.options[sel.selectedIndex].text;
+                }
+
+                quotes.push({ row: i, value: val, auth: authValue, name: contractorName });
+            }
+
+            if (quotes.length === 0) return true;
+
+            // --- categorise (tie-aware) -------------------------------
+            const minValue = Math.min(...quotes.map(q => q.value));
+            const lowestGroup = quotes.filter(q => q.value === minValue);
+            const authorisedRows = quotes.filter(q => q.auth === 'Authorised');
+            const higherAuth = authorisedRows.filter(q => q.value > minValue);
+
+            const allLowestRejected = lowestGroup.length > 0 && lowestGroup.every(q => q.auth === 'Not Auth');
+
+            // --- tiny HTML helpers ------------------------------------
+            const badge = (text, cls) => `<span class="badge ${cls}">${text}</span>`;
+            const row = (name, value, badgeHtml, trCls = '') =>
+                `<tr class="${trCls}">
+                <td class="fw-bold">${name}</td>
+                <td>£${value}</td>
+                <td>${badgeHtml}</td>
+            </tr>`;
+
+            const quoteTable = rowsHtml =>
+                `<table class="table table-sm small table-bordered">
+                <thead>
+                    <tr><th>Contractor</th><th>Quote (ex VAT)</th><th>Status</th></tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>`;
+
+            const cheapestLabel = lowestGroup.map(q => `<strong>${q.name} (£${q.value})</strong>`).join(' and ');
+            const cheapestP = `<p>The cheapest quote${lowestGroup.length > 1 ? 's are' : ' is'} ${cheapestLabel}.</p>`;
+
+            const warnings = [];
+
+            // --- multiple authorised ----------------------------------
+            if (authorisedRows.length > 1) {
+                const rows = authorisedRows.map(q => {
+                    const isLowest = q.value === minValue;
+                    return row(q.name, q.value,
+                        badge(isLowest ? 'Lowest' : 'Authorised', isLowest ? 'bg-success' : 'bg-warning'),
+                        isLowest ? 'table-success' : ''
+                    );
+                }).join('');
+
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Multiple Quotes Authorised',
+                    blockSubmit: true,
+                    html: `<p class="mb-3">You have authorised multiple quotes - please only select one.</p>`
+                });
+            }
+
+            // --- higher quote authorised ------------------------------
+            if (higherAuth.length > 0) {
+                const higherRows = higherAuth.map(q =>
+                    row(q.name, q.value, badge('Authorised', 'bg-warning text-dark'), 'table-warning')
+                ).join('');
+
+                const lowestRows = lowestGroup.map(q =>
+                    row(q.name, q.value, badge('Lowest', 'bg-success'), 'table-success')
+                ).join('');
+
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Higher Quote Authorised',
+                    html: `<p class="mb-3">The following quote has been authorised but is <strong>not the lowest</strong> received.</p>
+                       ${cheapestP}
+                       ${quoteTable(higherRows + lowestRows)}
+                       <p class="text-danger fw-bold mt-4">Are you sure you want proceed with authorising a higher quote?</p>`
+                });
+            }
+
+            // --- lowest not authorised --------------------------------
+            if (allLowestRejected) {
+                const rows = lowestGroup.map(q =>
+                    row(q.name, q.value, badge('Not Authorised', 'bg-danger'), 'table-danger')
+                ).join('');
+
+                warnings.push({
+                    icon: 'warning',
+                    title: 'Lowest Quote Rejected',
+                    html: `<p class="mb-3">The lowest quote(s) received have been marked as <strong>Not Authorised</strong>.</p>
+                       ${quoteTable(rows)}
+                       <p class="small mt-2">Are you sure you want to reject the lowest quote?</p>`
+                });
+            }
+
+            if (warnings.length === 0) return true;
+
+            // --- chain SweetAlert2 ------------------------------------
+            evt.preventDefault();
+
+            function showNext(index) {
+                if (index >= warnings.length) {
+                    document.formdetails.onsubmit = null;
+                    document.formdetails.submit();
+                    return;
+                }
+
+                const w = warnings[index];
+
+                Swal.fire({
+                    icon: w.icon,
+                    title: w.title,
+                    html: w.html,
+                    showCancelButton: !w.blockSubmit,
+                    showConfirmButton: true,
+                    confirmButtonText: w.blockSubmit ? 'Go back' : 'Yes, continue',
+                    cancelButtonText: 'Go back',
+                    confirmButtonColor: w.blockSubmit ? '#d33' : '#45997F',
+                    cancelButtonColor: '#d33',
+                    width: 'auto',
+                    customClass: {
+                        htmlContainer: 'text-start',
+                        popup: 'p-4'
+                    }
+                }).then(result => {
+                    if (result.isConfirmed && !w.blockSubmit) {
+                        showNext(index + 1);
+                    }
+                });
+            }
+
+            showNext(0);
+            return false;
+        }
     </script>
+
     <style>
         input.form-control {
             width: auto !important;
